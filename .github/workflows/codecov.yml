@@ -1,0 +1,25 @@
+name: Run Codecov
+on: [push]
+jobs:
+  run-codecov:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Go Tests
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+
+      - name: Install Deps
+        run: |
+          go get .
+
+      - name: Test
+        run: go test -v ./...
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
