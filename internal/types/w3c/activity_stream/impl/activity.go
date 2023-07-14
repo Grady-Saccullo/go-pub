@@ -5,11 +5,11 @@ import (
 	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_stream/vocab"
 )
 
-type ActivityType struct {
-	alias              *string
-	ActivityTypeCreate vocab.ActivityCreate
-	ActivityAccept     vocab.ActivityAccept
-	ActivityFollow     vocab.ActivityFollow
+type Activity struct {
+	alias          *string
+	ActivityCreate vocab.ActivityCreate
+	ActivityAccept vocab.ActivityAccept
+	ActivityFollow vocab.ActivityFollow
 }
 
 func DeserializeActivity(d map[string]interface{}, ldAliases map[string]string) (vocab.Activity, error) {
@@ -25,16 +25,16 @@ func DeserializeActivity(d map[string]interface{}, ldAliases map[string]string) 
 		if v, err := DeserializeActivityCreate(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &ActivityType{
-				alias:              alias,
-				ActivityTypeCreate: v,
+			return &Activity{
+				alias:          alias,
+				ActivityCreate: v,
 			}, err
 		}
 	case ActivityAcceptTypeValue:
 		if v, err := DeserializeActivityAccept(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &ActivityType{
+			return &Activity{
 				alias:          alias,
 				ActivityAccept: v,
 			}, err
@@ -43,7 +43,7 @@ func DeserializeActivity(d map[string]interface{}, ldAliases map[string]string) 
 		if v, err := DeserializeActivityFollow(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &ActivityType{
+			return &Activity{
 				alias:          alias,
 				ActivityFollow: v,
 			}, err
@@ -53,14 +53,14 @@ func DeserializeActivity(d map[string]interface{}, ldAliases map[string]string) 
 	return nil, nil
 }
 
-func (a *ActivityType) GetActivityCreate() vocab.ActivityCreate {
-	return a.ActivityTypeCreate
+func (a *Activity) GetActivityCreate() vocab.ActivityCreate {
+	return a.ActivityCreate
 }
 
-func (a *ActivityType) GetActivityAccept() vocab.ActivityAccept {
+func (a *Activity) GetActivityAccept() vocab.ActivityAccept {
 	return a.ActivityAccept
 }
 
-func (a *ActivityType) GetActivityFollow() vocab.ActivityFollow {
+func (a *Activity) GetActivityFollow() vocab.ActivityFollow {
 	return a.ActivityFollow
 }
