@@ -1,4 +1,4 @@
-package property_summary
+package impl
 
 import (
 	"fmt"

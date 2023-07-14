@@ -1,4 +1,4 @@
-package property_name
+package impl
 
 import (
 	"fmt"
@@ -7,8 +7,8 @@ import (
 	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_stream/vocab"
 )
 
-const KeyName = "name"
-const KeyNameMap = "nameMap"
+const PropertyNameKey = "name"
+const PropertyNameKeyMap = "nameMap"
 
 type PropertyName struct {
 	unknown          interface{}
@@ -20,11 +20,11 @@ type PropertyName struct {
 func DeserializePropertyName(d map[string]interface{}, ldAliases map[string]string) (vocab.PropertyName, error) {
 	alias := json_ld.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
 
-	propSingle, okSingle := json_ld.GetProperty(d, alias, KeyName)
-	propMap, okMap := json_ld.GetProperty(d, alias, KeyNameMap)
+	propSingle, okSingle := json_ld.GetProperty(d, alias, PropertyNameKey)
+	propMap, okMap := json_ld.GetProperty(d, alias, PropertyNameKeyMap)
 
 	if okSingle && okMap {
-		return nil, fmt.Errorf("both %s and %s keys are present", KeyName, KeyNameMap)
+		return nil, fmt.Errorf("both %s and %s keys are present", PropertyNameKey, PropertyNameKeyMap)
 	}
 
 	if okSingle {
