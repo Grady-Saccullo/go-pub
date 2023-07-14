@@ -1,4 +1,4 @@
-package activityStream
+package _old_
 
 type LinkType string
 
@@ -8,7 +8,7 @@ const (
 )
 
 type Link struct {
-	JsonLDContext JsonLDContext `json:"@context"`
+	JsonLDContext JsonLDContext `json:"@context,omitempty"`
 	Type          LinkType      `json:"type"`
 	PropertyName
 	PropertyNameMap

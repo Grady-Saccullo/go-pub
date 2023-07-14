@@ -1,6 +1,7 @@
 package api
 
 import (
+	activityStream "github.com/Grady-Saccullo/activity-pub-go/internal/activity_stream"
 	"log"
 	"net/http"
 )
@@ -21,5 +22,16 @@ func inboxHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func outboxHandler(w http.ResponseWriter, r *http.Request) {
-
+	ex := activityStream.Note{
+		Object: activityStream.Object{
+			Type: activityStream.ObjectTypeNote,
+			ObjectCore: activityStream.ObjectCore{
+				JsonLDContext: []string{
+					"https://www.w3.org/ns/activitystreams",
+					"https://w3id.org/security/v1",
+				},
+				ID: "https://hackerman-laboratories.com/v1/notes/123",
+			},
+		},
+	}
 }

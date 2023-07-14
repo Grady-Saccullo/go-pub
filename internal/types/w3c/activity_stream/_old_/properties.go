@@ -1,4 +1,4 @@
-package activityStream
+package _old_
 
 // JsonLDContext can of type string, array or map
 type JsonLDContext interface{}
@@ -15,7 +15,7 @@ type PropertyAttachment struct {
 	Attachment interface{} `json:"attachment,omitempty"`
 }
 
-// PropertyAttributedTo inherits Object or Link
+// PropertyAttributedTo inherits Actor, Object or Link
 type PropertyAttributedTo struct {
 	AttributedTo interface{} `json:"attributedTo,omitempty"`
 }
@@ -281,7 +281,7 @@ type PropertyUpdated struct {
 	Updated string `json:"updated,omitempty"`
 }
 
-// PropertyUrl inherits string or Link
+// PropertyUrl inherits Link
 type PropertyUrl struct {
 	Url interface{} `json:"url,omitempty"`
 }

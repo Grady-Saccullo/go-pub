@@ -1,4 +1,4 @@
-package activityStream
+package _old_
 
 type Collection struct {
 	ObjectCore

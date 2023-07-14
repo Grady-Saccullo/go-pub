@@ -1,4 +1,4 @@
-package activityStream
+package _old_
 
 type ActorType string
 
@@ -10,27 +10,27 @@ const (
 	ActorTypeService      ActorType = "Service"
 )
 
-type Application struct {
+type Actor struct {
 	ObjectCore
 	Type ActorType `json:"type"`
+}
+
+type Application struct {
+	Actor
 }
 
 type Group struct {
-	ObjectCore
-	Type ActorType `json:"type"`
+	Actor
 }
 
 type Organization struct {
-	ObjectCore
-	Type ActorType `json:"type"`
+	Actor
 }
 
 type Person struct {
-	ObjectCore
-	Type ActorType `json:"type"`
+	Actor
 }
 
 type Service struct {
-	ObjectCore
-	Type ActorType `json:"type"`
+	Actor
 }

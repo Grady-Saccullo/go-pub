@@ -1,4 +1,4 @@
-package activityStream
+package _old_
 
 type ActivityType string
 
@@ -35,8 +35,7 @@ const (
 )
 
 type ActivityCore struct {
-	JsonLDContext JsonLDContext `json:"@context"`
-	Type          ActivityType  `json:"type"`
+	Type ActivityType `json:"type"`
 	PropertyActor
 	PropertyObject
 	PropertyOrigin
@@ -51,6 +50,7 @@ type Activity struct {
 }
 
 type IntransitiveActivity struct {
+	JsonLDContext JsonLDContext `json:"@context,omitempty"`
 	ActivityCore
 }
 
