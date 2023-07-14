@@ -4,20 +4,18 @@ jobs:
   run-codecov:
     runs-on: ubuntu-latest
     steps:
-      - name: Run Go Tests
+      - name: Checkout Repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.20'
 
-      - name: Install Deps
-        run: |
-          go get .
-
-      - name: Test
-        run: go test -v ./...
+      - name: Run coverage
+        run: go test -race -coverprofile=coverage.out -covermode=atomic
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
