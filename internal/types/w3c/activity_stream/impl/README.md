@@ -1,8 +1,6 @@
 # Activity Stream Implementations
 
 ## TODO
-- [ ] Rename root files correctly under each package
-- [ ] Pull in deserializers for all property packages (currently only property_object in brought in) to standardize
 - [ ] Finish building out necessary types
   - [ ] Activity
     - [ ] Update
@@ -12,8 +10,9 @@
   - [ ] Properties
     - [ ] TBD given what's needed for an initial simple API
 
-## Dependency Injection
-Since activity streams are recursive in nature needed to be able to inject deserializers in a singleton pattern
-so there are no circular dependencies (cycle import). To achieve this a root level manager is created and setup
-with all the deserializers. Local managers are then created for each package and set their manager to the root
-level and define each necessary deserializer
+## Comment on Dependency Injection
+Since ActivityStreams are recursive in nature keeping the files within the same package makes our lives much easier.
+Initially attempted to do a manager style singleton DI pattern, used in `go-fed/activity`, however seemed to complex
+given we can just keep all ActivityStream implementations in the root `impl` package. This does have the trade-off of
+having 100's of files in this folder, however greatly simplifies/remove necessity to think about DI which I feel is
+worth it.
