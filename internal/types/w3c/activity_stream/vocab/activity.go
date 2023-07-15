@@ -4,4 +4,5 @@ type Activity interface {
 	GetActivityCreate() ActivityCreate
 	GetActivityAccept() ActivityAccept
 	GetActivityFollow() ActivityFollow
+	GetActivityLike() ActivityLike
 }

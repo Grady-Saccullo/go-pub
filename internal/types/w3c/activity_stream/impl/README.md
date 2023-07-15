@@ -7,6 +7,12 @@
   - [ ] Object
     - [ ] Article
     - [ ] Document
+  - [ ] Actor
+    - [X] Person
+    - [X] Application
+    - [X] Group
+    - [ ] Organization
+    - [ ] Service
   - [ ] Properties
     - [ ] TBD given what's needed for an initial simple API
 

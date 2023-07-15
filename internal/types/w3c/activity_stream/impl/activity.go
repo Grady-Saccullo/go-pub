@@ -10,6 +10,7 @@ type Activity struct {
 	ActivityCreate vocab.ActivityCreate
 	ActivityAccept vocab.ActivityAccept
 	ActivityFollow vocab.ActivityFollow
+	ActivityLike   vocab.ActivityLike
 }
 
 func DeserializeActivity(d map[string]interface{}, ldAliases map[string]string) (vocab.Activity, error) {
@@ -48,6 +49,15 @@ func DeserializeActivity(d map[string]interface{}, ldAliases map[string]string) 
 				ActivityFollow: v,
 			}, err
 		}
+	case ActivityLikeTypeValue:
+		if v, err := DeserializeActivityLike(d, ldAliases); err != nil {
+			return nil, err
+		} else if v != nil {
+			return &Activity{
+				alias:          alias,
+				ActivityFollow: v,
+			}, err
+		}
 	}
 
 	return nil, nil
@@ -63,4 +73,8 @@ func (a *Activity) GetActivityAccept() vocab.ActivityAccept {
 
 func (a *Activity) GetActivityFollow() vocab.ActivityFollow {
 	return a.ActivityFollow
+}
+
+func (a *Activity) GetActivityLike() vocab.ActivityLike {
+	return a.ActivityLike
 }
