@@ -7,7 +7,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
         with:
-          fetch-depth: v_2
+          fetch-depth: 2
 
       - name: Set up Go
         uses: actions/setup-go@v4
