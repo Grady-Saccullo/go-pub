@@ -1,9 +1,12 @@
 package api
 
 import (
+	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/impl"
 	"log"
 	"net/http"
 )
+
+var t activity_streams_v2_impl.Activity
 
 func main() {
 	http.HandleFunc("/.well-known/webfinger", webFingerHandler)
