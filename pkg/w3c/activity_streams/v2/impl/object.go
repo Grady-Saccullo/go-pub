@@ -2,7 +2,7 @@ package activity_streams_v2_impl
 
 import (
 	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/vocab"
-	json_ld_v1 "github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
 )
 
 type ObjectType struct {
