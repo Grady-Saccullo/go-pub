@@ -3,28 +3,28 @@ package impl
 import (
 	"fmt"
 	"github.com/Grady-Saccullo/activity-pub-go/internal/types/json_ld"
-	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_stream/vocab"
+	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_streams/vocab"
 )
 
-const ActivityCreateTypeValue = "Create"
+const ActivityLikeTypeValue = "Like"
 
-type ActivityCreate struct {
+type ActivityLike struct {
 	ActivityProperties
 	alias *string
 }
 
-func DeserializeActivityCreate(d map[string]interface{}, ldAliases map[string]string) (vocab.ActivityCreate, error) {
+func DeserializeActivityLike(d map[string]interface{}, ldAliases map[string]string) (vocab.ActivityLike, error) {
 	alias := json_ld.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
 
 	s, ok := json_ld.GetType(d, alias)
 
 	if !ok {
 		return nil, fmt.Errorf("type is not defined")
-	} else if *s != ActivityCreateTypeValue {
+	} else if *s != ActivityLikeTypeValue {
 		return nil, nil
 	}
 
-	ret := ActivityCreate{}
+	ret := ActivityLike{}
 
 	if err := deserializeActivityProperties(d, ldAliases, &ret); err != nil {
 		return nil, err

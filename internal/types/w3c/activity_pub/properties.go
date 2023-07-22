@@ -1,36 +1,36 @@
 package activityPub
 
-// PropertyInbox inherits activity_stream.OrderedCollection
+// PropertyInbox inherits activity_streams.OrderedCollection
 type PropertyInbox struct {
 	Inbox interface{} `json:"inbox"`
 }
 
-// PropertyOutbox inherits activity_stream.OrderedCollection
+// PropertyOutbox inherits activity_streams.OrderedCollection
 type PropertyOutbox struct {
 	Outbox interface{} `json:"outbox"`
 }
 
-// PropertyFollowing inherits activity_stream.Collection or activity_stream.OrderedCollection
+// PropertyFollowing inherits activity_streams.Collection or activity_streams.OrderedCollection
 type PropertyFollowing struct {
 	Following interface{} `json:"following,omitempty"`
 }
 
-// PropertyFollowers inherits activity_stream.Collection or activity_stream.OrderedCollection
+// PropertyFollowers inherits activity_streams.Collection or activity_streams.OrderedCollection
 type PropertyFollowers struct {
 	Followers interface{} `json:"followers,omitempty"`
 }
 
-// PropertyLiked inherits activity_stream.Collection
+// PropertyLiked inherits activity_streams.Collection
 type PropertyLiked struct {
 	Liked interface{} `json:"liked,omitempty"`
 }
 
-// PropertyStreams inherits activity_stream.Collection
+// PropertyStreams inherits activity_streams.Collection
 type PropertyStreams struct {
 	Streams interface{} `json:"liked,omitempty"`
 }
 
-// PropertyPreferredUsername inherits activity_stream.Collection
+// PropertyPreferredUsername inherits activity_streams.Collection
 type PropertyPreferredUsername struct {
 	PreferredUsername string `json:"liked,omitempty"`
 }
@@ -73,7 +73,7 @@ type PropertySignClientKey struct {
 	SignClientKey string `json:"signClientKey,omitempty"`
 }
 
-// PropertySharedInbox inherits activity_stream.OrderedCollection
+// PropertySharedInbox inherits activity_streams.OrderedCollection
 type PropertySharedInbox struct {
 	SharedInbox string `json:"sharedInbox,omitempty"`
 }

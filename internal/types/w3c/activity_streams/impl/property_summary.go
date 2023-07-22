@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/Grady-Saccullo/activity-pub-go/internal/types/json_ld"
 	"github.com/Grady-Saccullo/activity-pub-go/internal/types/rdf"
-	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_stream/vocab"
+	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_streams/vocab"
 )
 
 const KeySummary = "summary"

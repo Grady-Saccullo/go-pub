@@ -3,24 +3,24 @@ package impl
 import (
 	"fmt"
 	"github.com/Grady-Saccullo/activity-pub-go/internal/types/json_ld"
-	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_stream/vocab"
+	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_streams/vocab"
 )
 
-const ActorApplicationTypeValue = "Application"
+const ActorGroupTypeValue = "Group"
 
-type ActorApplication struct {
+type ActorGroup struct {
 	ActorProperties
 	alias *string
 }
 
-func DeserializeActorApplication(d map[string]interface{}, ldAliases map[string]string) (vocab.ActorApplication, error) {
+func DeserializeActorGroup(d map[string]interface{}, ldAliases map[string]string) (vocab.ActorGroup, error) {
 	alias := json_ld.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
 
 	s, ok := json_ld.GetType(d, alias)
 
 	if !ok {
 		return nil, fmt.Errorf("type is not defined")
-	} else if *s != ActorApplicationTypeValue {
+	} else if *s != ActorGroupTypeValue {
 		return nil, nil
 	}
 

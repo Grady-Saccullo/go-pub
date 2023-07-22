@@ -2,7 +2,7 @@ package impl
 
 import (
 	"github.com/Grady-Saccullo/activity-pub-go/internal/types/json_ld"
-	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_stream/vocab"
+	"github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_streams/vocab"
 	"net/url"
 )
 

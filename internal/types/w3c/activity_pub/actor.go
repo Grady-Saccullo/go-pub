@@ -1,7 +1,7 @@
 package activityPub
 
 import (
-	activityStream "github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_stream/_old_"
+	activityStream "github.com/Grady-Saccullo/activity-pub-go/internal/types/w3c/activity_streams/_old_"
 )
 
 type Actor struct {
