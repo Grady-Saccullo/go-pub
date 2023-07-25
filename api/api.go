@@ -1,18 +1,17 @@
 package api
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/impl"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/activity_streams/v2/impl"
 	"log"
 	"net/http"
 )
 
-var t activity_streams_v2_impl.Activity
+var t impl.Activity
 
 func main() {
 	http.HandleFunc("/.well-known/webfinger", webFingerHandler)
 	http.HandleFunc("/v1/inbox", inboxHandler)
 	http.HandleFunc("/v1/outbox", outboxHandler)
-
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 

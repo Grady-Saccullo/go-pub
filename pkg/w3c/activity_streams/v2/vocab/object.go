@@ -1,5 +1,6 @@
-package activity_streams_v2_vocab
+package vocab
 
 type Object interface {
-	GetObjectNote() ObjectNote
+	GetNote() ObjectNote
+	SetNote(note ObjectNote)
 }

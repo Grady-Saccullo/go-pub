@@ -1,8 +1,15 @@
-package activity_streams_v2_vocab
+package vocab
 
 type Activity interface {
-	GetActivityCreate() ActivityCreate
-	GetActivityAccept() ActivityAccept
-	GetActivityFollow() ActivityFollow
-	GetActivityLike() ActivityLike
+	GetCreate() ActivityCreate
+	SetCreate(create ActivityCreate)
+
+	GetAccept() ActivityAccept
+	SetAccept(accept ActivityAccept)
+
+	GetFollow() ActivityFollow
+	SetFollow(follow ActivityFollow)
+
+	GetLike() ActivityLike
+	SetLike(like ActivityLike)
 }

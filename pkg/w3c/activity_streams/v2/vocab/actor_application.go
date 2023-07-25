@@ -1,4 +1,4 @@
-package activity_streams_v2_vocab
+package vocab
 
 type ActorApplication interface {
 	ObjectPropertyGetters

@@ -1,9 +1,9 @@
-package activity_streams_v2_impl
+package impl
 
 import (
 	"fmt"
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/vocab"
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/activity_streams/v2/vocab"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 )
 
 const ActivityLikeTypeValue = "Like"
@@ -13,10 +13,10 @@ type ActivityLike struct {
 	alias *string
 }
 
-func DeserializeActivityLike(d map[string]interface{}, ldAliases map[string]string) (activity_streams_v2_vocab.ActivityLike, error) {
-	alias := json_ld_v1.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
+func DeserializeActivityLike(d map[string]interface{}, ldAliases map[string]string) (vocab.ActivityLike, error) {
+	alias := helpers.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
 
-	s, ok := json_ld_v1.GetType(d, alias)
+	s, ok := helpers.GetType(d, alias)
 
 	if !ok {
 		return nil, fmt.Errorf("type is not defined")

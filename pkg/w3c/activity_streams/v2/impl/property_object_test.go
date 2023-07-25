@@ -1,7 +1,7 @@
-package activity_streams_v2_impl
+package impl
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	json_ld_v1 "github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -54,8 +54,8 @@ func TestDeserializePropertyObject_Single(t *testing.T) {
 	}
 
 	for _, i := range pn {
-		assert.Equal(t, objectJsonName, *i.GetObjectNote().GetPropertyName().GetString())
-		assert.Equal(t, objectJsonSummary, *i.GetObjectNote().GetPropertySummary().GetString())
+		assert.Equal(t, objectJsonName, *i.GetNote().GetName().GetString())
+		assert.Equal(t, objectJsonSummary, *i.GetNote().GetSummary().GetString())
 	}
 }
 
@@ -64,6 +64,31 @@ const testDeserializePropertyObject_ArrayJson = `{
 	"type": "Create",
 	"object": [
 		"https://exampel.com/v1/note",
+		{
+			"type": "Note",
+			"name": "I prolly work...",
+			"summary": "Just a troll"
+		},
+		{
+			"type": "Note",
+			"name": "I prolly work...",
+			"summary": "Just a troll"
+		},
+		{
+			"type": "Note",
+			"name": "I prolly work...",
+			"summary": "Just a troll"
+		},
+		{
+			"type": "Note",
+			"name": "I prolly work...",
+			"summary": "Just a troll"
+		},
+		{
+			"type": "Note",
+			"name": "I prolly work...",
+			"summary": "Just a troll"
+		},
 		{
 			"type": "Note",
 			"name": "I prolly work...",
@@ -85,14 +110,12 @@ func TestDeserializePropertyObject_Array(t *testing.T) {
 
 	for _, i := range pn {
 
-		if i.IsIRI() {
+		if i.GetIRI() != nil {
 			assert.Equal(t, "https://exampel.com/v1/note", i.GetIRI().String())
 		}
-		if i.IsObject() {
-			if i.GetObjectNote() != nil {
-				assert.Equal(t, objectJsonName, *i.GetObjectNote().GetPropertyName().GetString())
-				assert.Equal(t, objectJsonSummary, *i.GetObjectNote().GetPropertySummary().GetString())
-			}
+		if n := i.GetNote(); n != nil {
+			assert.Equal(t, objectJsonName, *n.GetName().GetString())
+			assert.Equal(t, objectJsonSummary, *n.GetSummary().GetString())
 		}
 	}
 }
@@ -122,11 +145,13 @@ func TestDeserializePropertyObject_Nested(t *testing.T) {
 	}
 
 	for _, i := range pn {
-		if i.IsActivity() {
-			if i.GetActivityAccept() != nil {
-				for _, a := range i.GetActivityAccept().GetPropertyObject() {
-					assert.Equal(t, "Going-Away Party for Jim", *a.GetActivityFollow().GetPropertyName().GetString())
-				}
+		if n := i.GetNote(); n != nil {
+			assert.Equal(t, objectJsonName, *n.GetName().GetString())
+			assert.Equal(t, objectJsonSummary, *n.GetSummary().GetString())
+		}
+		if a := i.GetAccept(); a != nil {
+			for _, o := range a.GetObject() {
+				assert.Equal(t, "Going-Away Party for Jim", *o.GetFollow().GetName().GetString())
 			}
 		}
 	}

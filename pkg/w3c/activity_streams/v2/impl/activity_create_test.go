@@ -1,7 +1,7 @@
-package activity_streams_v2_impl
+package impl
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -17,7 +17,7 @@ const testDeserializeActivityCreateJson = `{
 }`
 
 func TestDeserializeActivityCreate(t *testing.T) {
-	data, ldAliases, err := json_ld_v1.ParseJson([]byte(testDeserializeActivityCreateJson))
+	data, ldAliases, err := helpers.ParseJson([]byte(testDeserializeActivityCreateJson))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -30,23 +30,31 @@ func TestDeserializeActivityCreate(t *testing.T) {
 		return
 	}
 
-	for _, i := range pn.GetPropertyObject() {
-		if i.GetObjectNote() != nil {
-			if i.GetObjectNote().GetPropertyName() != nil {
-				assert.Equal(t, "I am 1 level deep", *i.GetObjectNote().GetPropertyName().GetString())
+	if len(pn.GetObject()) == 0 {
+		t.Fatal("failed to parse object into ")
+	}
+
+	for _, o := range pn.GetObject() {
+		if n := o.GetNote(); o != nil {
+			if na := n.GetName(); na != nil {
+				assert.Equal(t, "I am 1 level deep", *na.GetString())
+
+				na.SetString("I've been replaced")
+				assert.Equal(t, "I've been replaced", *na.GetString())
+			} else {
+				t.Fatal("failed to parse name")
 			}
 
-			i.GetObjectNote().GetPropertyName().SetString("I will def werk!")
-			assert.Equal(t, "I will def werk!", *i.GetObjectNote().GetPropertyName().GetString())
+			if s := n.GetSummary(); s != nil {
+				assert.Equal(t, "Just a troll", *s.GetString())
 
-			if i.GetObjectNote().GetPropertySummary() != nil {
-				if i.GetObjectNote().GetPropertySummary().GetString() != nil {
-					assert.Equal(t, "Just a troll", *i.GetObjectNote().GetPropertySummary().GetString())
-				}
+				s.SetString("I've been replaced")
+				assert.Equal(t, "I've been replaced", *s.GetString())
+			} else {
+				t.Fatal("failed to parse summary")
 			}
-
-			i.GetObjectNote().GetPropertySummary().SetString("A new summary")
-			assert.Equal(t, "A new summary", *i.GetObjectNote().GetPropertySummary().GetString())
+		} else {
+			t.Fatal("")
 		}
 	}
 }

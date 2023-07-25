@@ -1,7 +1,7 @@
-package activity_streams_v2_impl
+package impl
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	json_ld_v1 "github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -35,12 +35,10 @@ func TestDeserializeActivityFollow(t *testing.T) {
 		return
 	}
 
-	for _, i := range pn.GetPropertyActor() {
-		if i.IsObject() {
-			if n := i.GetObjectNote(); n != nil {
-				assert.Equal(t, "https://example.com/v1/account/john", n.GetPropertyId().GetIRI().String())
-				assert.Equal(t, "John", *n.GetPropertyName().GetString())
-			}
+	for _, i := range pn.GetActor() {
+		if n := i.GetNote(); n != nil {
+			assert.Equal(t, "https://example.com/v1/account/john", n.GetId().GetIRI().String())
+			assert.Equal(t, "John", *n.GetName().GetString())
 		}
 	}
 }

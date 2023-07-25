@@ -1,14 +1,25 @@
-package activity_streams_v2_impl
+package impl
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	json_ld_v1 "github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 const testDeserializeActorPersonJson = `{
 	"@context": "http://www.w3.org/ns/activitystreams",
-	"type": "Group",
+	"type": "Person",
+	"id": "https://example.com/v1"
+}`
+
+const testDeserializeActorPerson_WrongTypeJson = `{
+	"@context": "http://www.w3.org/ns/activitystreams",
+	"type": "Note",
+	"id": "https://example.com/v1"
+}`
+
+const testDeserializeActorPerson_NoTypeJson = `{
+	"@context": "http://www.w3.org/ns/activitystreams",
 	"id": "https://example.com/v1"
 }`
 
@@ -27,7 +38,36 @@ func TestDeserializeActorPerson(t *testing.T) {
 		return
 	}
 
-	if pn.GetPropertyId() != nil {
-		assert.Equal(t, "https://example.com/v1", pn.GetPropertyId().GetIRI().String())
+	if pn.GetId() != nil {
+		assert.Equal(t, "https://example.com/v1", pn.GetId().GetIRI().String())
 	}
+}
+
+func TestDeserializeActorPerson2(t *testing.T) {
+	data, ldAliases, err := json_ld_v1.ParseJson([]byte(testDeserializeActorPerson_WrongTypeJson))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pn, err := DeserializeActorPerson(data, ldAliases)
+
+	if pn == nil && err == nil {
+		return
+	}
+
+	t.Fatal("parsed invalid person")
+}
+
+func TestDeserializeActorPerson3(t *testing.T) {
+	data, ldAliases, err := json_ld_v1.ParseJson([]byte(testDeserializeActorPerson_NoTypeJson))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pn, err := DeserializeActorPerson(data, ldAliases)
+	if pn == nil && err != nil {
+		return
+	}
+
+	t.Fatal("parsed invalid person")
 }

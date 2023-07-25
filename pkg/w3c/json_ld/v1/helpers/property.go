@@ -1,4 +1,4 @@
-package json_ld_v1
+package helpers
 
 import "fmt"
 

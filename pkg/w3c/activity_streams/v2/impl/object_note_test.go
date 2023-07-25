@@ -1,8 +1,8 @@
-package activity_streams_v2_impl
+package impl
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/vocab"
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/activity_streams/v2/vocab"
+	json_ld_v1 "github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -14,7 +14,7 @@ const testDeserializeObjectNoteJson = `{
 	"summary": "I am a summary"
 }`
 
-func baseTestDeserializeObjectNote(t *testing.T) activity_streams_v2_vocab.ObjectNote {
+func baseTestDeserializeObjectNote(t *testing.T) vocab.ObjectNote {
 	data, ldAliases, err := json_ld_v1.ParseJson([]byte(testDeserializeObjectNoteJson))
 	if err != nil {
 		t.Fatal(err)
@@ -38,8 +38,8 @@ func TestDeserializeObjectNote(t *testing.T) {
 func TestObjectNote_GetPropertyName(t *testing.T) {
 	pn := baseTestDeserializeObjectNote(t)
 
-	if pn.GetPropertyName() != nil {
-		assert.Equal(t, "I have a name!", *pn.GetPropertyName().GetString())
+	if pn.GetName() != nil {
+		assert.Equal(t, "I have a name!", *pn.GetName().GetString())
 	} else {
 		t.Fatal("nil property name")
 	}
@@ -48,8 +48,8 @@ func TestObjectNote_GetPropertyName(t *testing.T) {
 func TestObjectNote_GetPropertySummary(t *testing.T) {
 	pn := baseTestDeserializeObjectNote(t)
 
-	if pn.GetPropertySummary() != nil {
-		assert.Equal(t, "I have a name!", *pn.GetPropertyName().GetString())
+	if pn.GetSummary() != nil {
+		assert.Equal(t, "I have a name!", *pn.GetName().GetString())
 	} else {
 		t.Fatal("nil property summary")
 	}

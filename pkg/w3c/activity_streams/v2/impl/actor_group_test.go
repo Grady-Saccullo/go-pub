@@ -1,7 +1,7 @@
-package activity_streams_v2_impl
+package impl
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	json_ld_v1 "github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -27,7 +27,7 @@ func TestDeserializeActorGroup(t *testing.T) {
 		return
 	}
 
-	if pn.GetPropertyId() != nil {
-		assert.Equal(t, "https://example.com/v1", pn.GetPropertyId().GetIRI().String())
+	if pn.GetId() != nil {
+		assert.Equal(t, "https://example.com/v1", pn.GetId().GetIRI().String())
 	}
 }

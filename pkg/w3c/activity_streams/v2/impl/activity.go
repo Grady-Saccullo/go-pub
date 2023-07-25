@@ -1,24 +1,32 @@
-package activity_streams_v2_impl
+package impl
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/vocab"
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/activity_streams/v2/vocab"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 )
 
 type Activity struct {
-	alias          *string
-	ActivityCreate activity_streams_v2_vocab.ActivityCreate
-	ActivityAccept activity_streams_v2_vocab.ActivityAccept
-	ActivityFollow activity_streams_v2_vocab.ActivityFollow
-	ActivityLike   activity_streams_v2_vocab.ActivityLike
+	alias  *string
+	create vocab.ActivityCreate
+	accept vocab.ActivityAccept
+	follow vocab.ActivityFollow
+	like   vocab.ActivityLike
 }
 
-func DeserializeActivity(d map[string]interface{}, ldAliases map[string]string) (activity_streams_v2_vocab.Activity, error) {
-	alias := json_ld_v1.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
+func DeserializeActivity(d map[string]interface{}, ldAliases map[string]string) (vocab.Activity, error) {
+	alias := helpers.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
 
-	t, ok := json_ld_v1.GetType(d, alias)
+	t, ok := helpers.GetType(d, alias)
 	if !ok {
 		return nil, nil
+	}
+
+	ret := &Activity{
+		alias:  alias,
+		create: &ActivityCreate{},
+		accept: &ActivityAccept{},
+		follow: &ActivityFollow{},
+		like:   &ActivityLike{},
 	}
 
 	switch *t {
@@ -26,55 +34,59 @@ func DeserializeActivity(d map[string]interface{}, ldAliases map[string]string) 
 		if v, err := DeserializeActivityCreate(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &Activity{
-				alias:          alias,
-				ActivityCreate: v,
-			}, err
+			ret.create = v
 		}
 	case ActivityAcceptTypeValue:
 		if v, err := DeserializeActivityAccept(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &Activity{
-				alias:          alias,
-				ActivityAccept: v,
-			}, err
+			ret.accept = v
 		}
 	case ActivityFollowTypeValue:
 		if v, err := DeserializeActivityFollow(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &Activity{
-				alias:          alias,
-				ActivityFollow: v,
-			}, err
+			ret.follow = v
 		}
 	case ActivityLikeTypeValue:
 		if v, err := DeserializeActivityLike(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &Activity{
-				alias:          alias,
-				ActivityFollow: v,
-			}, err
+			ret.follow = v
 		}
 	}
 
-	return nil, nil
+	return ret, nil
 }
 
-func (a *Activity) GetActivityCreate() activity_streams_v2_vocab.ActivityCreate {
-	return a.ActivityCreate
+func (a *Activity) GetCreate() vocab.ActivityCreate {
+	return a.create
 }
 
-func (a *Activity) GetActivityAccept() activity_streams_v2_vocab.ActivityAccept {
-	return a.ActivityAccept
+func (a *Activity) SetCreate(c vocab.ActivityCreate) {
+	a.create = c
 }
 
-func (a *Activity) GetActivityFollow() activity_streams_v2_vocab.ActivityFollow {
-	return a.ActivityFollow
+func (a *Activity) GetAccept() vocab.ActivityAccept {
+	return a.accept
 }
 
-func (a *Activity) GetActivityLike() activity_streams_v2_vocab.ActivityLike {
-	return a.ActivityLike
+func (a *Activity) SetAccept(ac vocab.ActivityAccept) {
+	a.accept = ac
+}
+
+func (a *Activity) GetFollow() vocab.ActivityFollow {
+	return a.follow
+}
+
+func (a *Activity) SetFollow(f vocab.ActivityFollow) {
+	a.follow = f
+}
+
+func (a *Activity) GetLike() vocab.ActivityLike {
+	return a.like
+}
+
+func (a *Activity) SetLike(l vocab.ActivityLike) {
+	a.like = l
 }

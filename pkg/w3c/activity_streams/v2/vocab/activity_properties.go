@@ -1,15 +1,15 @@
-package activity_streams_v2_vocab
+package vocab
 
 type ActivityPropertyGetters interface {
 	ObjectPropertyGetters
-	GetPropertyObject() []PropertyObject
-	GetPropertyActor() []PropertyActor
-	GetPropertyTarget() []PropertyTarget
+	GetObject() []PropertyObject
+	GetActor() []PropertyActor
+	GetTarget() []PropertyTarget
 }
 
 type ActivityPropertySetters interface {
 	ObjectPropertySetters
-	SetPropertyObject([]PropertyObject)
-	SetPropertyActor([]PropertyActor)
-	SetPropertyTarget([]PropertyTarget)
+	SetObject([]PropertyObject)
+	SetActor([]PropertyActor)
+	SetTarget([]PropertyTarget)
 }

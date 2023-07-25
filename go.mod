@@ -1,4 +1,4 @@
-module github.com/Grady-Saccullo/activity-pub-go
+module github.com/Grady-Saccullo/go-pub
 
 go 1.20
 

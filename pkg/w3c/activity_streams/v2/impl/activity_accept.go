@@ -1,9 +1,9 @@
-package activity_streams_v2_impl
+package impl
 
 import (
 	"fmt"
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/vocab"
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/activity_streams/v2/vocab"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 )
 
 const ActivityAcceptTypeValue = "Accept"
@@ -13,10 +13,10 @@ type ActivityAccept struct {
 	alias *string
 }
 
-func DeserializeActivityAccept(d map[string]interface{}, ldAliases map[string]string) (activity_streams_v2_vocab.ActivityAccept, error) {
-	alias := json_ld_v1.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
+func DeserializeActivityAccept(d map[string]interface{}, ldAliases map[string]string) (vocab.ActivityAccept, error) {
+	alias := helpers.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
 
-	s, ok := json_ld_v1.GetType(d, alias)
+	s, ok := helpers.GetType(d, alias)
 
 	if !ok {
 		return nil, fmt.Errorf("type is not defined")
@@ -24,11 +24,11 @@ func DeserializeActivityAccept(d map[string]interface{}, ldAliases map[string]st
 		return nil, nil
 	}
 
-	ret := ActivityFollow{}
+	ret := &ActivityFollow{}
 
-	if err := deserializeActivityProperties(d, ldAliases, &ret); err != nil {
+	if err := deserializeActivityProperties(d, ldAliases, ret); err != nil {
 		return nil, err
 	}
 
-	return &ret, nil
+	return ret, nil
 }

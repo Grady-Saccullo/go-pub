@@ -1,15 +1,10 @@
-package activity_streams_v2_vocab
+package vocab
 
-import "net/url"
+import json_ld_v1_vocab "github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/vocab"
 
 type PropertyActor interface {
-	GetIRI() *url.URL
+	json_ld_v1_vocab.TypeIRI
 
-	SetIRI(url.URL)
-
-	IsIRI() bool
-
-	IsObject() bool
-
+	Object
 	Object
 }

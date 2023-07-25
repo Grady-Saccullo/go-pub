@@ -1,40 +1,41 @@
-package activity_streams_v2_impl
+package impl
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/vocab"
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
-	"net/url"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/activity_streams/v2/vocab"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
+	json_ld_v1_impl "github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/impl"
+	json_ld_v1_vocab "github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/vocab"
 )
 
 const PropertyObjectKey = "object"
 
 type PropertyObject struct {
-	activity_streams_v2_vocab.Object
-	activity_streams_v2_vocab.Activity
-	iri     *url.URL
+	vocab.Object
+	vocab.Activity
+	json_ld_v1_vocab.TypeIRI
 	unknown interface{}
 	alias   *string
 }
 
-func DeserializePropertyObject(d map[string]interface{}, ldAliases map[string]string) ([]activity_streams_v2_vocab.PropertyObject, error) {
-	alias := json_ld_v1.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
+func DeserializePropertyObject(d map[string]interface{}, ldAliases map[string]string) ([]vocab.PropertyObject, error) {
+	alias := helpers.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
 
-	prop, ok := json_ld_v1.GetProperty(d, alias, PropertyObjectKey)
+	prop, ok := helpers.GetProperty(d, alias, PropertyObjectKey)
 
 	if !ok {
 		return nil, nil
 	}
 
-	var ret []activity_streams_v2_vocab.PropertyObject
+	var ret []vocab.PropertyObject
 
 	if list, ok := prop.([]interface{}); ok {
 		for _, item := range list {
-			if i := deserializePropertyObjectItem(item, ldAliases); i != nil {
+			if i := deserializePropertyObjectItem(item, ldAliases, alias); i != nil {
 				ret = append(ret, i)
 			}
 		}
 	} else {
-		if i := deserializePropertyObjectItem(prop, ldAliases); i != nil {
+		if i := deserializePropertyObjectItem(prop, ldAliases, alias); i != nil {
 			ret = append(ret, i)
 		}
 	}
@@ -42,51 +43,28 @@ func DeserializePropertyObject(d map[string]interface{}, ldAliases map[string]st
 	return ret, nil
 }
 
-func deserializePropertyObjectItem(prop interface{}, ldAliases map[string]string) *PropertyObject {
-	if v, ok := json_ld_v1.GetIRI(prop); ok {
-		return &PropertyObject{
-			iri: v,
-		}
+func deserializePropertyObjectItem(prop interface{}, ldAliases map[string]string, alias *string) *PropertyObject {
+	ret := &PropertyObject{
+		Object:   &Object{},
+		Activity: &Activity{},
+		TypeIRI:  &json_ld_v1_impl.TypeIRI{},
+		unknown:  nil,
+		alias:    alias,
+	}
+
+	if v, err := json_ld_v1_impl.DeserializeTypeIRI(prop); err == nil {
+		ret.TypeIRI = v
 	}
 
 	if j, ok := prop.(map[string]interface{}); ok {
-		o, err := DeserializeObject(j, ldAliases)
-		if err == nil && o != nil {
-			return &PropertyObject{
-				iri:    nil,
-				Object: o,
-			}
+		if o, err := DeserializeObject(j, ldAliases); err == nil {
+			ret.Object = o
 		}
 
-		a, err := DeserializeActivity(j, ldAliases)
-		if err == nil && a != nil {
-			return &PropertyObject{
-				iri:      nil,
-				Activity: a,
-			}
+		if a, err := DeserializeActivity(j, ldAliases); err == nil {
+			ret.Activity = a
 		}
-
 	}
 
-	return nil
-}
-
-func (p *PropertyObject) GetIRI() *url.URL {
-	return p.iri
-}
-
-func (p *PropertyObject) SetIRI(iri url.URL) {
-	p.iri = &iri
-}
-
-func (p *PropertyObject) IsIRI() bool {
-	return p.iri != nil
-}
-
-func (p *PropertyObject) IsObject() bool {
-	return p.Object != nil
-}
-
-func (p *PropertyObject) IsActivity() bool {
-	return p.Activity != nil
+	return ret
 }

@@ -1,23 +1,27 @@
-package activity_streams_v2_impl
+package impl
 
 import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/vocab"
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/json_ld/v1"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/activity_streams/v2/vocab"
+	"github.com/Grady-Saccullo/go-pub/pkg/w3c/json_ld/v1/helpers"
 )
 
 type Actor struct {
 	alias            *string
-	ActorPerson      activity_streams_v2_vocab.ActorPerson
-	ActorApplication activity_streams_v2_vocab.ActorApplication
-	ActorGroup       activity_streams_v2_vocab.ActorGroup
+	ActorPerson      vocab.ActorPerson
+	ActorApplication vocab.ActorApplication
+	ActorGroup       vocab.ActorGroup
 }
 
-func DeserializeActor(d map[string]interface{}, ldAliases map[string]string) (activity_streams_v2_vocab.Actor, error) {
-	alias := json_ld_v1.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
+func DeserializeActor(d map[string]interface{}, ldAliases map[string]string) (vocab.Actor, error) {
+	alias := helpers.GetJsonLDContext(ldAliases, "https://www.w3.org/ns/activitystreams")
 
-	t, ok := json_ld_v1.GetType(d, alias)
+	t, ok := helpers.GetType(d, alias)
 	if !ok {
 		return nil, nil
+	}
+
+	ret := &Actor{
+		alias: alias,
 	}
 
 	switch *t {
@@ -25,42 +29,33 @@ func DeserializeActor(d map[string]interface{}, ldAliases map[string]string) (ac
 		if v, err := DeserializeActorPerson(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &Actor{
-				alias:       alias,
-				ActorPerson: v,
-			}, err
+			ret.ActorPerson = v
 		}
 	case ActorApplicationTypeValue:
 		if v, err := DeserializeActorApplication(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &Actor{
-				alias:            alias,
-				ActorApplication: v,
-			}, err
+			ret.ActorApplication = v
 		}
 	case ActorGroupTypeValue:
 		if v, err := DeserializeActorGroup(d, ldAliases); err != nil {
 			return nil, err
 		} else if v != nil {
-			return &Actor{
-				alias:      alias,
-				ActorGroup: v,
-			}, err
+			ret.ActorGroup = v
 		}
 	}
 
-	return nil, nil
+	return ret, nil
 }
 
-func (a *Actor) GetActorPerson() activity_streams_v2_vocab.ActorPerson {
+func (a *Actor) GetActorPerson() vocab.ActorPerson {
 	return a.ActorPerson
 }
 
-func (a *Actor) GetActorApplication() activity_streams_v2_vocab.ActorApplication {
+func (a *Actor) GetActorApplication() vocab.ActorApplication {
 	return a.ActorApplication
 }
 
-func (a *Actor) GetActorGroup() activity_streams_v2_vocab.ActorGroup {
+func (a *Actor) GetActorGroup() vocab.ActorGroup {
 	return a.ActorGroup
 }

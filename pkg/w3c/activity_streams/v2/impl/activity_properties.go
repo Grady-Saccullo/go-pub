@@ -1,17 +1,16 @@
-package activity_streams_v2_impl
+package impl
 
-import (
-	"github.com/Grady-Saccullo/activity-pub-go/pkg/w3c/activity_streams/v2/vocab"
-)
+import "github.com/Grady-Saccullo/go-pub/pkg/w3c/activity_streams/v2/vocab"
 
 type ActivityProperties struct {
 	ObjectProperties
-	PropertyObject []activity_streams_v2_vocab.PropertyObject
-	PropertyActor  []activity_streams_v2_vocab.PropertyActor
-	PropertyTarget []activity_streams_v2_vocab.PropertyTarget
+	object []vocab.PropertyObject
+	actor  []vocab.PropertyActor
+	target []vocab.PropertyTarget
 }
 
-func deserializeActivityProperties(d map[string]interface{}, ldAliases map[string]string, i activity_streams_v2_vocab.ActivityPropertySetters) error {
+func deserializeActivityProperties(d map[string]interface{}, ldAliases map[string]string, i vocab.ActivityPropertySetters) error {
+
 	if err := deserializeObjectProperties(d, ldAliases, i); err != nil {
 		return err
 	}
@@ -19,44 +18,44 @@ func deserializeActivityProperties(d map[string]interface{}, ldAliases map[strin
 	if v, err := DeserializePropertyObject(d, ldAliases); err != nil {
 		return err
 	} else if v != nil {
-		i.SetPropertyObject(v)
+		i.SetObject(v)
 	}
 
 	if v, err := DeserializePropertyActor(d, ldAliases); err != nil {
 		return err
 	} else if v != nil {
-		i.SetPropertyActor(v)
+		i.SetActor(v)
 	}
 
 	if v, err := DeserializePropertyTarget(d, ldAliases); err != nil {
 		return err
 	} else if v != nil {
-		i.SetPropertyTarget(v)
+		i.SetTarget(v)
 	}
 
 	return nil
 }
 
-func (a *ActivityProperties) GetPropertyObject() []activity_streams_v2_vocab.PropertyObject {
-	return a.PropertyObject
+func (a *ActivityProperties) GetObject() []vocab.PropertyObject {
+	return a.object
 }
 
-func (a *ActivityProperties) SetPropertyObject(v []activity_streams_v2_vocab.PropertyObject) {
-	a.PropertyObject = v
+func (a *ActivityProperties) SetObject(v []vocab.PropertyObject) {
+	a.object = v
 }
 
-func (a *ActivityProperties) GetPropertyActor() []activity_streams_v2_vocab.PropertyActor {
-	return a.PropertyActor
+func (a *ActivityProperties) GetActor() []vocab.PropertyActor {
+	return a.actor
 }
 
-func (a *ActivityProperties) SetPropertyActor(v []activity_streams_v2_vocab.PropertyActor) {
-	a.PropertyActor = v
+func (a *ActivityProperties) SetActor(v []vocab.PropertyActor) {
+	a.actor = v
 }
 
-func (a *ActivityProperties) GetPropertyTarget() []activity_streams_v2_vocab.PropertyTarget {
-	return a.PropertyTarget
+func (a *ActivityProperties) GetTarget() []vocab.PropertyTarget {
+	return a.target
 }
 
-func (a *ActivityProperties) SetPropertyTarget(v []activity_streams_v2_vocab.PropertyTarget) {
-	a.PropertyTarget = v
+func (a *ActivityProperties) SetTarget(v []vocab.PropertyTarget) {
+	a.target = v
 }
